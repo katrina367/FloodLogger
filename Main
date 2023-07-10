@@ -5,7 +5,6 @@ local Players = game:GetService("Players")
 local PS = game:GetService("PathfindingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService('Workspace')
-local TweenService = game:GetService("TweenService")
 
 local plr = Players.LocalPlayer
 
@@ -15,12 +14,60 @@ local COIN_PATH = Amounts_Path.CoinAward.Amount
 local XP_PATH = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.XpAmount
 local ESCAPED_PATH = Amounts_Path.MapsEscaped.Amount
 
-_G.GEMS = 0
-_G.COINS = 0
-_G.XP = 0
-_G.ESCAPED = 0
+local GEMS = 0
+local COINS = 0
+local XP = 0
+local ESCAPED = 0
 
 local Door = game.Workspace.Lobby.PlayHere
+
+local function SendHttpsRequest(body)
+    if DiscordWebhook ~= false then
+        http.request {
+            Url = DiscordWebhook;
+            Method = 'POST';
+            Headers = {
+                ['Content-Type'] = 'application/json';
+            };
+            Body = HttpService:JSONEncode(body)
+        }
+    end
+end
+
+local function SendHttpsStats()
+    GEMS += tonumber(GEM_PATH.Text)
+    COINS += tonumber(COIN_PATH.Text)
+    XP += string.gsub(XP_PATH.Text, "XP", "", 1)
+    ESCAPED += tonumber(ESCAPED_PATH.Text)
+
+	SendHttpsRequest({
+        ['username'] = plr.Name;
+        ['content'] = "" ;
+        ['embeds'] = {{
+            ['title'] = plr.DisplayName .. " has died:";
+            ['description'] = "";
+            ['thumbnail'] = {
+                ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+            };
+            ['color'] = 0xc5041f;
+            ['fields'] = {
+                {
+                    ['name'] = 'Currencies gained';
+                    ['value'] = '<:FloodGem:406580588137545748> ' .. GEM_PATH.Text .. '\n' .. '<:CoinF:749410094780776548> ' .. COIN_PATH.Text .. '\n' .. '<:Xp:940396948337332274> ' .. XP_PATH.Text .. '\n' .. '<:FloodExit:1092190384051978400> ' .. ESCAPED_PATH.Text;
+                    ['inline'] = false;
+                };
+                {
+                    ['name'] = 'Currencies gained in this session';
+                    ['value'] = '<:FloodGem:406580588137545748> ' .. GEMS .. '\n' .. '<:CoinF:749410094780776548> ' .. COINS .. '\n' .. '<:Xp:940396948337332274> ' .. XP .. '\n' .. '<:FloodExit:1092190384051978400> ' .. ESCAPED;
+                    ['inline'] = false;
+                };
+            };
+            ['footer'] = {
+                ['text'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            }
+        }}
+    })
+end
 
 plr.CharacterAdded:Connect(function(char)
     task.wait(3)

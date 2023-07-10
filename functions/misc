@@ -1,0 +1,22 @@
+local plr = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+
+local rootPart = char:WaitForChild("HumanoidRootPart")
+
+function AntiLagPart()
+    local part = Instance.new("Part")
+    part.Size = Vector3.new(40,40,40)  -- Set the size as needed
+    part.Anchored = false
+    part.CanCollide = false
+    part.Massless = true
+    part.Parent = char
+    
+    -- Position the part at the same location as the HumanoidRootPart
+    part.CFrame = rootPart.CFrame
+    
+    -- Create a new WeldConstraint
+    local weld = Instance.new("WeldConstraint")
+    weld.Part0 = rootPart
+    weld.Part1 = part
+    weld.Parent = rootPart
+end
