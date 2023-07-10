@@ -8,7 +8,7 @@ function StartAntiLag()
         end
     end
     for _,v in pairs(game.Lighting:GetChildren()) do 
-        if v.Name ~= "Fade_Blur" then
+        if v.Name ~= "Fade_Blur" and v.Name ~= "Fade_ColorCorrection" then
             v:Destroy()
         end
     end
