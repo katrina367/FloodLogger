@@ -1,7 +1,8 @@
-local plr = game.Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
 
-local rootPart = char:WaitForChild("HumanoidRootPart")
+local rootPart = character:WaitForChild("HumanoidRootPart")
 
 function AntiLagPart()
     local part = Instance.new("Part")
@@ -9,7 +10,7 @@ function AntiLagPart()
     part.Anchored = false
     part.CanCollide = false
     part.Massless = true
-    part.Parent = char
+    part.Parent = character
     
     -- Position the part at the same location as the HumanoidRootPart
     part.CFrame = rootPart.CFrame
@@ -19,4 +20,5 @@ function AntiLagPart()
     weld.Part0 = rootPart
     weld.Part1 = part
     weld.Parent = rootPart
+    
 end
