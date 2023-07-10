@@ -1,0 +1,91 @@
+local function SendHttpsRequest(body)
+    if DiscordWebhook ~= false then
+        http.request {
+            Url = DiscordWebhook;
+            Method = 'POST';
+            Headers = {
+                ['Content-Type'] = 'application/json';
+            };
+            Body = HttpService:JSONEncode(body)
+        }
+    end
+end
+
+function DeathMessage()
+    SendHttpsRequest({
+        ['username'] = plr.Name;
+        ['content'] = "" ;
+        ['embeds'] = {{
+            ['title'] = plr.DisplayName .. " has died:";
+            ['description'] = "";
+            ['thumbnail'] = {
+                ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+            };
+            ['color'] = 0xc5041f;
+            ['fields'] = {
+                {
+                    ['name'] = 'Currencies gained';
+                    ['value'] = '<:FloodGem:406580588137545748> ' .. GEM_PATH.Text .. '\n' .. '<:CoinF:749410094780776548> ' .. COIN_PATH.Text .. '\n' .. '<:Xp:940396948337332274> ' .. XP_PATH.Text .. '\n' .. '<:FloodExit:1092190384051978400> ' .. ESCAPED_PATH.Text;
+                    ['inline'] = false;
+                };
+                {
+                    ['name'] = 'Currencies gained in this session';
+                    ['value'] = '<:FloodGem:406580588137545748> ' .. GEMS .. '\n' .. '<:CoinF:749410094780776548> ' .. COINS .. '\n' .. '<:Xp:940396948337332274> ' .. XP .. '\n' .. '<:FloodExit:1092190384051978400> ' .. ESCAPED;
+                    ['inline'] = false;
+                };
+            };
+            ['footer'] = {
+                ['text'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            }
+        }}
+    })
+end
+
+function EscapeeNotif()
+    SendHttpsRequest({
+        ['username'] = plr.Name;
+        ['content'] = "" ;
+        ['embeds'] = {{
+            ['title'] = '🏊‍♂️ | Escapee Obtained!';
+            ['description'] = '';
+            ['color'] = 0x00a0b9;
+        }}
+    })
+end
+
+function LostPageNotif()
+    SendHttpsRequest({
+        ['username'] = plr.Name;
+        ['content'] = "" ;
+        ['embeds'] = {{
+            ['title'] = '📔 | Lost Page Obtained!';
+            ['description'] = '';
+            ['color'] = 0x00a0b9;
+        }}
+    })
+end
+
+function MapNotif()
+    SendHttpsRequest({
+        ['username'] = plr.Name;
+        ['content'] = "" ;
+        ['embeds'] = {{
+            ['title'] = 'Now Playing: ' .. MapName;
+            ['description'] = '';
+            ['thumbnail'] = {
+                ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+            };
+            ['color'] = WebhookColor;
+            ['fields'] = {
+                {
+                    ['name'] = 'Map Stats';
+                    ['value'] = '⭐ Difficulty | ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored | ' .. tostring(Mirrored) .. '\n' ..  '🏊‍♂️ Escapee | ' .. tostring(FoundEscapee) .. '\n' .. '📔 Lost Page | ' .. tostring(FoundPage) .. '\n' .. '🏛️ Part Count | ' .. Settings.AssetCount.Value;
+                    ['inline'] = false;
+                };
+            };
+            ['footer'] = {
+                ['text'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            }
+        }}
+    })
+end
