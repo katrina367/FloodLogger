@@ -68,6 +68,8 @@ local function FindCollectibles(map)
     end)
 end
 
+local SentMapInfo = false
+
 local function SendNewMapInfo(map)
     coroutine.wrap(FindCollectibles)(map)
     task.wait(1)
@@ -89,5 +91,10 @@ end
 
 
 plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
-    SendNewMapInfo(map)
+    if not SentMapInfo then
+        SentMapInfo = true
+        SendNewMapInfo(map)
+        task.wait(4)
+        SentMapInfo = false
+    else return end
 end)
