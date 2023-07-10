@@ -38,9 +38,9 @@ local function SendHttpsStats()
 end
 
 plr.CharacterAdded:Connect(function(char)
-    task.wait(3)
+    task.wait(1)
 
-	char.HumanoidRootPart.CFrame = Door.CFrame * CFrame.new(0,0,2)
+	game:GetService("Players").daz_real.PlayerScripts.CL_MAIN_GameScript.AddWaiting:FireServer()
     SendHttpsStats()
 
     task.wait(6)

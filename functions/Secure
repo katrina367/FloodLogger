@@ -1,0 +1,17 @@
+if not Secure then return end
+
+local Players = game:GetService("Players")
+
+for _, v in pairs(Players:GetChildren()) do
+    if v.Name ~= "Humanoid" and v.Name ~= Players.LocalPlayer.Name then 
+        if not Players.LocalPlayer:IsFriendsWith(v.UserId) or WhitelistFriends == false then
+            Players.LocalPlayer:Kick('Non Whitelisted Player Detected in your Server')
+        end
+    end
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    if not Players.LocalPlayer:IsFriendsWith(plr.UserId) or WhitelistFriends == false then
+        Players.LocalPlayer:Kick('Non Whitelisted Player Detected in your Server')
+    end
+end)
