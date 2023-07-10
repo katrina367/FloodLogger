@@ -70,6 +70,7 @@ end
 
 local function SendNewMapInfo(map)
     coroutine.wrap(FindCollectibles)(map)
+    task.wait(1)
     Settings = Workspace.Multiplayer.Map.Settings
     MapName = Settings.MapName.Value
     Mirrored = false
@@ -87,6 +88,6 @@ local function SendNewMapInfo(map)
 end
 
 
-plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(...)
-    SendNewMapInfo(...)
+plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
+    SendNewMapInfo(map)
 end)
