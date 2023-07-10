@@ -1,1 +1,121 @@
--- e 
+local WebhookColor = 0x8800ff
+
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local PS = game:GetService("PathfindingService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService('Workspace')
+local TweenService = game:GetService("TweenService")
+
+local plr = Players.LocalPlayer
+
+local Amounts_Path = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content
+local GEM_PATH = Amounts_Path.GemAward.Amount
+local COIN_PATH = Amounts_Path.CoinAward.Amount
+local XP_PATH = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.XpAmount
+local ESCAPED_PATH = Amounts_Path.MapsEscaped.Amount
+
+_G.GEMS = 0
+_G.COINS = 0
+_G.XP = 0
+_G.ESCAPED = 0
+
+local Door = game.Workspace.Lobby.PlayHere
+
+plr.CharacterAdded:Connect(function(char)
+    task.wait(3)
+	local path = PS:CreatePath()
+	local p = path:ComputeAsync(char.HumanoidRootPart.Position, Door.Position)
+	local waypoints = path:GetWaypoints()
+	for i, v in ipairs(waypoints) do
+		char.Humanoid:MoveTo(v.Position)
+		char.Humanoid.MoveToFinished:Wait()
+	end
+	char.HumanoidRootPart.CFrame = Door.CFrame * CFrame.new(0,0,2)
+    SendHttpsStats()
+end)
+
+loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"main"
+
+local FoundEscapee = false
+local FoundPage = false
+
+local function FindCollectibles(map)
+    map.ChildAdded:Connect(function(child)
+        if child.Name == "_Rescue" then
+            FoundEscapee = true
+            task.wait(6.5)
+
+            firetouchinterest(plr.Character.PrimaryPart, child.Contact, 0)
+            task.wait(0.2)
+            firetouchinterest(plr.Character.PrimaryPart, child.Contact, 1)
+            
+            SendHttpsRequest({
+                ['username'] = plr.Name;
+                ['content'] = "" ;
+                ['embeds'] = {{
+                    ['title'] = '🏊‍♂️ | Escapee Obtained!';
+                    ['description'] = '';
+                    ['color'] = 0x00a0b9;
+                }}
+            })
+        elseif child.Name == "_LostPage" then
+            FoundPage = true 
+            task.wait(6.5)
+
+            firetouchinterest(plr.Character.PrimaryPart, child, 0)
+            task.wait(0.2)
+            firetouchinterest(plr.Character.PrimaryPart, child, 1)
+            
+            SendHttpsRequest({
+                ['username'] = plr.Name;
+                ['content'] = "" ;
+                ['embeds'] = {{
+                    ['title'] = '📔 | Lost Page Obtained!';
+                    ['description'] = '';
+                    ['color'] = 0x00a0b9;
+                }}
+            })
+        end
+    end)
+end
+
+local function SendNewMapInfo(map)
+    coroutine.wrap(FindCollectibles)(map)
+	task.wait(4)
+    local Settings = Workspace.Multiplayer.Map.Settings
+    local MapName = Settings.MapName.Value
+    local Mirrored = false
+    local FindMirrorObject = Settings:FindFirstChild("_MirrorMap")
+
+    if not FindMirrorObject then Mirrored = true end
+
+    task.wait(1)
+
+	SendHttpsRequest({
+        ['username'] = plr.Name;
+        ['content'] = "" ;
+        ['embeds'] = {{
+            ['title'] = 'Now Playing: ' .. MapName;
+            ['description'] = '';
+            ['thumbnail'] = {
+                ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+            };
+            ['color'] = WebhookColor;
+            ['fields'] = {
+                {
+                    ['name'] = 'Map Stats';
+                    ['value'] = '⭐ Difficulty | ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored | ' .. tostring(Mirrored) .. '\n' ..  '🏊‍♂️ Escapee | ' .. tostring(FoundEscapee) .. '\n' .. '📔 Lost Page | ' .. tostring(FoundPage) .. '\n' .. '🏛️ Part Count | ' .. Settings.AssetCount.Value;
+                    ['inline'] = false;
+                };
+            };
+            ['footer'] = {
+                ['text'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            }
+        }}
+    })
+    task.wait(1)
+    FoundEscapee, FoundPage = false,false
+end
+
+Workspace.Multiplayer.ChildAdded:Connect(SendNewMapInfo)
