@@ -1,3 +1,5 @@
+plr = game.Players.LocalPlayer
+
 function StartAntiLag()
     local CurrentMap = Workspace.Multiplayer.Map
     for _,v in pairs(CurrentMap:GetDescendants()) do 
@@ -14,7 +16,7 @@ function CreateAntiLagPart()
     part.CanCollide = false
     part.Massless = true
     part.Parent = plr.Character
-    part.Transparency = 1
+    part.Transparency = 0.4
     part.Name = "AntiLagObject"
     part.CFrame = plr.Character.HumanoidRootPart.CFrame
     
