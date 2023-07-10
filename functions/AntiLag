@@ -1,5 +1,3 @@
-plr = game.Players.LocalPlayer
-
 function StartAntiLag()
     local CurrentMap = Workspace.Multiplayer.Map
     for _,v in pairs(CurrentMap:GetDescendants()) do 
@@ -10,6 +8,8 @@ function StartAntiLag()
 end
 
 function CreateAntiLagPart()
+    local plr = game.Players.LocalPlayer
+
     local part = Instance.new("Part")
     part.Size = Vector3.new(40,40,40)
     part.Anchored = false
