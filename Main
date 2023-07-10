@@ -25,7 +25,7 @@ Door = game.Workspace.Lobby.PlayHere
 loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/HTTP"))()
 
 -- // ANTI LAG CHECKS
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/AntiLag"))()
 
 local function SendHttpsStats()
     GEMS += tonumber(GEM_PATH.Text)
