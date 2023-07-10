@@ -6,7 +6,7 @@ Players = game:GetService("Players")
 ReplicatedStorage = game:GetService("ReplicatedStorage")
 Workspace = game:GetService('Workspace')
 
-local plr = Players.LocalPlayer
+plr = Players.LocalPlayer
 
 Amounts_Path = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content
 GEM_PATH = Amounts_Path.GemAward.Amount
