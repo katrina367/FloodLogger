@@ -21,7 +21,11 @@ ESCAPED = 0
 
 Door = game.Workspace.Lobby.PlayHere
 
+-- // HTTP REQUESTS
 loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/HTTP"))()
+
+-- // ANTI LAG CHECKS
+
 
 local function SendHttpsStats()
     GEMS += tonumber(GEM_PATH.Text)
@@ -95,12 +99,17 @@ plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
     local max = 4
     local num = min + (max - min) * math.random(0, 100000) / 100000
     local str = string.format("%.5f", num)
-    
+
     task.wait(tonumber(str))
 
     if not SentMapInfo then
         SentMapInfo = true
         SendNewMapInfo(map)
+        
+        if AntiLag then
+            if not plr.Character:FindFirstChild("AntiLagObject") then CreateAntiLagPart() StartAntiLag() end
+        end
+
         task.wait(6)
         SentMapInfo = false
     else return end
