@@ -25,7 +25,8 @@ Door = game.Workspace.Lobby.PlayHere
 loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/HTTP"))()
 
 -- // ANTI LAG CHECKS
-loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/AntiLag"))()
+_G.LAG = game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/AntiLag")
+
 
 local function SendHttpsStats()
     GEMS += tonumber(GEM_PATH.Text)
@@ -43,6 +44,7 @@ plr.CharacterAdded:Connect(function(char)
     SendHttpsStats()
 
     task.wait(6)
+    loadstring(_G.LAG)()
     CreateAntiLagPart()  
 end)
 
@@ -56,9 +58,9 @@ local function FindCollectibles(map)
         if v.Name == "_Rescue" then
             FoundEscapee = true
 
-            firetouchinterest(plr.Character.PrimaryPart, child.Contact, 0)
+            firetouchinterest(plr.Character.PrimaryPart, v.Contact, 0)
             task.wait(0.2)
-            firetouchinterest(plr.Character.PrimaryPart, child.Contact, 1)
+            firetouchinterest(plr.Character.PrimaryPart, v.Contact, 1)
             
             task.wait(6.5)
             
@@ -66,9 +68,9 @@ local function FindCollectibles(map)
         elseif v.Name == "_LostPage" then
             FoundPage = true 
 
-            firetouchinterest(plr.Character.PrimaryPart, child, 0)
+            firetouchinterest(plr.Character.PrimaryPart, v, 0)
             task.wait(0.2)
-            firetouchinterest(plr.Character.PrimaryPart, child, 1)
+            firetouchinterest(plr.Character.PrimaryPart, v, 1)
             
             task.wait(6.5)
 
@@ -110,10 +112,9 @@ plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
 
     if not SentMapInfo then
         SentMapInfo = true
-        SendNewMapInfo(map)
-        StartAntiLag() 
-
-
+        SendNewMapInfo(map) 
+        loadstring(_G.LAG)()
+        StartAntiLag()
         task.wait(6)
         SentMapInfo = false
     else return end
