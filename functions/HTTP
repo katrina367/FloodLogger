@@ -1,3 +1,5 @@
+local plr = Players.LocalPlayer
+
 local function SendHttpsRequest(body)
     if DiscordWebhook ~= false then
         http.request {
