@@ -111,10 +111,10 @@ plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
     if not SentMapInfo then
         SentMapInfo = true
         SendNewMapInfo(map)
-        
+        StartAntiLag() 
+
 
         task.wait(6)
-        StartAntiLag() 
         SentMapInfo = false
     else return end
 end)
