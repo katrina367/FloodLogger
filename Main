@@ -71,7 +71,7 @@ end
 local function SendNewMapInfo(map)
     coroutine.wrap(FindCollectibles)(map)
     Settings = Workspace.Multiplayer.Map.Settings
-    local MapName = Settings.MapName.Value
+    MapName = Settings.MapName.Value
     Mirrored = false
     local FindMirrorObject = Settings:FindFirstChild("_MirrorMap")
 
