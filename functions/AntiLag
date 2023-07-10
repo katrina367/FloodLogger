@@ -35,7 +35,7 @@ function CreateAntiLagPart()
 
     part.Touched:Connect(function(hit)
         if hit:IsA("BasePart") then
-            hit.Transparency = 0.8
+            hit.Transparency = 0.3
         end
     end)
 
