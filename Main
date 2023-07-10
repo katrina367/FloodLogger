@@ -24,9 +24,15 @@ Door = game.Workspace.Lobby.PlayHere
 -- // HTTP REQUESTS
 loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/HTTP"))()
 
+task.wait(0.2)
+
 -- // ANTI LAG CHECKS
 _G.LAG = game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/AntiLag")
 
+task.wait(0.2)
+
+-- // SECURE MODE
+loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/Secure"))()
 
 local function SendHttpsStats()
     GEMS += tonumber(GEM_PATH.Text)
@@ -38,15 +44,8 @@ local function SendHttpsStats()
 end
 
 plr.CharacterAdded:Connect(function(char)
-    task.wait(1)
-
-	game:GetService("Players").daz_real.PlayerScripts.CL_MAIN_GameScript.AddWaiting:FireServer()
+	Players.LocalPlayer.PlayerScripts.CL_MAIN_GameScript.AddWaiting:Fire()
     SendHttpsStats()
-
-    task.wait(6)
---    if not AntiLag the return end
---    loadstring(_G.LAG)()
---    CreateAntiLagPart()  
 end)
 
 loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"main"
