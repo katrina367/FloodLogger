@@ -3,7 +3,15 @@ function StartAntiLag()
     for _,v in pairs(CurrentMap:GetDescendants()) do 
         if v:IsA("BasePart") then
             v.Transparency = 1
+            if v.CanCollide == false then
+                v:Destroy()
+            end
+        elseif v:IsA("Texture") then
+            v:Destroy()
         end
+    end
+    for _,v in pairs(game.Lighting:GetChildren()) do 
+        v:Destroy()
     end
 end
 

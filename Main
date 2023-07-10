@@ -44,8 +44,9 @@ plr.CharacterAdded:Connect(function(char)
     SendHttpsStats()
 
     task.wait(6)
-    loadstring(_G.LAG)()
-    CreateAntiLagPart()  
+--    if not AntiLag the return end
+--    loadstring(_G.LAG)()
+--    CreateAntiLagPart()  
 end)
 
 loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"main"
@@ -113,8 +114,11 @@ plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
     if not SentMapInfo then
         SentMapInfo = true
         SendNewMapInfo(map) 
-        loadstring(_G.LAG)()
-        StartAntiLag()
+        if AntiLag then
+            loadstring(_G.LAG)()
+            CreateAntiLagPart() 
+            StartAntiLag()
+        end
         task.wait(6)
         SentMapInfo = false
     else return end
