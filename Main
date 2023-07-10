@@ -107,7 +107,7 @@ plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
         SendNewMapInfo(map)
         
         if AntiLag == true then
-            if not plr.Character:FindFirstChild("AntiLagObject") then CreateAntiLagPart() StartAntiLag() end
+            if not plr.Character:FindFirstChild("AntiLagObject") then print('worked.. kinda') StartAntiLag() CreateAntiLagPart()  end
         end
 
         task.wait(6)
