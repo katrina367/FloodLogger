@@ -24,6 +24,9 @@ Door = game.Workspace.Lobby.PlayHere
 -- // HTTP REQUESTS
 loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/HTTP"))()
 
+-- // ANTI LAG CHECKS
+loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/AntiLag"))()
+
 local function SendHttpsStats()
     GEMS += tonumber(GEM_PATH.Text)
     COINS += tonumber(COIN_PATH.Text)
@@ -38,6 +41,9 @@ plr.CharacterAdded:Connect(function(char)
 
 	char.HumanoidRootPart.CFrame = Door.CFrame * CFrame.new(0,0,2)
     SendHttpsStats()
+
+    task.wait(6)
+    CreateAntiLagPart()  
 end)
 
 loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"main"
@@ -90,8 +96,7 @@ local function SendNewMapInfo(map)
     FoundEscapee, FoundPage = false,false
 end
 
--- // ANTI LAG CHECKS
-loadstring(game:HttpGet("https://raw.githubusercontent.com/dazscripts/FloodLogger/main/functions/AntiLag"))()
+
 
 plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
     local min = 1
@@ -104,14 +109,7 @@ plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
     if not SentMapInfo then
         SentMapInfo = true
         SendNewMapInfo(map)
-        
-        --if _G.AntiLag == true then
-            if not plr.Character:FindFirstChild("AntiLagObject") then 
-                print('worked.. kinda') 
-                StartAntiLag() 
-                CreateAntiLagPart()  
-            end
-       -- end
+        StartAntiLag() 
 
         task.wait(6)
         SentMapInfo = false
