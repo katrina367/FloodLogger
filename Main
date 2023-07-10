@@ -52,27 +52,29 @@ FoundEscapee = false
 FoundPage = false
 
 local function FindCollectibles(map)
-    map.ChildAdded:Connect(function(child)
-        if child.Name == "_Rescue" then
+    for _,v in pairs(map:GetDescendants()) do
+        if v.Name == "_Rescue" then
             FoundEscapee = true
-            task.wait(6.5)
 
             firetouchinterest(plr.Character.PrimaryPart, child.Contact, 0)
             task.wait(0.2)
             firetouchinterest(plr.Character.PrimaryPart, child.Contact, 1)
             
-            EscapeeNotif()
-        elseif child.Name == "_LostPage" then
-            FoundPage = true 
             task.wait(6.5)
+            
+            EscapeeNotif()
+        elseif v.Name == "_LostPage" then
+            FoundPage = true 
 
             firetouchinterest(plr.Character.PrimaryPart, child, 0)
             task.wait(0.2)
             firetouchinterest(plr.Character.PrimaryPart, child, 1)
             
+            task.wait(6.5)
+
             LostPageNotif()
         end
-    end)
+    end
 end
 
 local SentMapInfo = false
@@ -109,9 +111,10 @@ plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
     if not SentMapInfo then
         SentMapInfo = true
         SendNewMapInfo(map)
-        StartAntiLag() 
+        
 
         task.wait(6)
+        StartAntiLag() 
         SentMapInfo = false
     else return end
 end)

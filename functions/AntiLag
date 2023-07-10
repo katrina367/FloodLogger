@@ -33,7 +33,7 @@ function CreateAntiLagPart()
 
     part.TouchEnded:Connect(function(hit)
         if hit:IsA("BasePart") then
-            hit.Transparency = 0
+            hit.Transparency = 1
         end
     end)
 end
