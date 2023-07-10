@@ -12,6 +12,7 @@ function StartAntiLag()
             v.Enabled = false
         end
     end
+    game.Lighting.ClockTime = 0
 end
 
 function CreateAntiLagPart()
