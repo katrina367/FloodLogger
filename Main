@@ -91,10 +91,17 @@ end
 
 
 plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
+    local min = 1
+    local max = 4
+    local num = min + (max - min) * math.random(0, 100000) / 100000
+    local str = string.format("%.5f", num)
+    
+    task.wait(tonumber(str))
+
     if not SentMapInfo then
         SentMapInfo = true
         SendNewMapInfo(map)
-        task.wait(4)
+        task.wait(6)
         SentMapInfo = false
     else return end
 end)
