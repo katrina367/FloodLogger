@@ -1,3 +1,11 @@
+local PossibleArgs = {
+    'DiscordWebhook',
+
+    'AntiLag',
+    'Secure',
+    'WhitelistFriends',
+}
+
 
 WebhookColor = 0x8800ff
 
@@ -8,7 +16,7 @@ Workspace = game:GetService('Workspace')
 
 local plr = game.Players.LocalPlayer
 
-Amounts_Path = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content
+Amounts_Path = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Contentr
 GEM_PATH = Amounts_Path.GemAward.Amount
 COIN_PATH = Amounts_Path.CoinAward.Amount
 XP_PATH = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.XpAmount
@@ -100,25 +108,16 @@ local function SendNewMapInfo(map)
     FoundEscapee, FoundPage = false,false
 end
 
-
-
-plr.PlayerScripts.Misc.CL_WaterColors.InitMap.Event:Connect(function(map)
-    local min = 1
-    local max = 4
-    local num = min + (max - min) * math.random(0, 100000) / 100000
-    local str = string.format("%.5f", num)
-
-    task.wait(tonumber(str))
-
+ReplicatedStorage.Remote.StartClientMapTimer.OnClientEvent:Connect(function()  
+    task.wait(3)
     if not SentMapInfo then
         SentMapInfo = true
         SendNewMapInfo(map) 
-        if AntiLag then
-            loadstring(_G.LAG)()
-            CreateAntiLagPart() 
-            StartAntiLag()
-        end
+        if AntiLag then loadstring(_G.LAG)() end
         task.wait(6)
         SentMapInfo = false
     else return end
 end)
+
+
+

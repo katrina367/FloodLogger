@@ -1,47 +1,36 @@
-function StartAntiLag()
-    local CurrentMap = Workspace.Multiplayer.Map
-    for _,v in pairs(CurrentMap:GetDescendants()) do 
-        if v:IsA("BasePart") then
-            v.Transparency = 1
-        elseif v:IsA("Texture") then
-            v:Destroy()
-        end
-    end
-    for _,v in pairs(game.Lighting:GetChildren()) do 
-        if not v:IsA("Sky") then
-            v.Enabled = false
-        end
-    end
-    game.Lighting.ClockTime = 0
+local plr = game.Players.LocalPlayer
+local s = Enum.SurfaceType.Smooth
+local l = game:GetService('Lighting')
+local c = Color3.new(1,1,1)
+
+l.Ambient = c
+l.Brightness = 0
+l.ColorShift_Bottom = c
+l.ColorShift_Top = c
+l.GlobalShadows = false
+l.FogEnd = 100000
+l.FogStart = 0
+
+for _, v in pairs(l:GetChildren()) do
+    if not v:IsA("Atmosphere") and not v:IsA("Sky") then v.Enabled = false end
 end
 
-function CreateAntiLagPart()
-    local plr = game.Players.LocalPlayer
-
-    local part = Instance.new("Part")
-    part.Size = Vector3.new(40,40,40)
-    part.Anchored = false
-    part.CanCollide = false
-    part.Massless = true
-    part.Parent = plr.Character
-    part.Transparency = 0.4
-    part.Name = "AntiLagObject"
-    part.CFrame = plr.Character.HumanoidRootPart.CFrame
-    
-    local weld = Instance.new("WeldConstraint")
-    weld.Part0 = plr.Character.HumanoidRootPart
-    weld.Part1 = part
-    weld.Parent = plr.Character.HumanoidRootPart 
-
-    part.Touched:Connect(function(hit)
-        if hit:IsA("BasePart") then
-            hit.Transparency = 0.3
-        end
-    end)
-
-    part.TouchEnded:Connect(function(hit)
-        if hit:IsA("BasePart") then
-            hit.Transparency = 1
-        end
-    end)
+for _, v in pairs(game.workspace.Multiplayer.Map:GetDescendants()) do
+    if v:IsA('BasePart') and v.Name ~= '_Rescue' then
+        v.BackSurface = s
+        v.BottomSurface = s
+        v.FrontSurface = s
+        v.LeftSurface = s
+        v.RightSurface = s
+        v.TopSurface = s
+        v.Material = Enum.Material.Plastic
+        v.CastShadow = false
+    elseif v:IsA("Decal") or v:IsA("ParticleEmitter") or v:IsA("Union") or v.Name == '_Detail' or v:IsA("Texture") then
+        v:Destroy()
+    elseif v.Name == '_Rescue' then
+        firetouchinterest(plr.Character.PrimaryPart, v.Contact, 0)
+        task.wait(0.2)
+        firetouchinterest(plr.Character.PrimaryPart, v.Contact, 1)
+    end
 end
+
